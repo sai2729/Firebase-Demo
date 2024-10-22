@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firestore CRUD Demo</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center">Firestore CRUD Operations</h3>
+
+        <!-- Form to Add Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Add New Item</h5>
+                <form id="add-item-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="item-name" placeholder="Enter item name">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section to Display Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Items</h5>
+                <ul id="item-list" class="list-group"></ul>
+            </div>
+        </div>
+
+        <!-- Form to Update Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Update Item</h5>
+                <form id="update-item-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="update-item-id" placeholder="Enter item ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="update-item-name" placeholder="Enter new item name">
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="updateItem()">Update Item</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Form to Delete Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Delete Item</h5>
+                <form id="delete-item-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="delete-item-id" placeholder="Enter item ID">
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="deleteItem()">Delete Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK and Script for CRUD Operations -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBamiWJ4TH3i7XqbGr24b0oLqxIXsXQH84",
+            authDomain: "fir-demoinclass-b92f4.firebaseapp.com",
+            projectId: "fir-demoinclass-b92f4",
+            storageBucket: "fir-demoinclass-b92f4.appspot.com",
+            messagingSenderId: "683282127140",
+            appId: "1:683282127140:web:87ff88f2c3b37fd803bbb1",
+            measurementId: "G-96RSW4N00E"
+        };
+        // Initialize Firebase 
+
+        const app = initializeApp(firebaseConfig);
+
+        const db = getFirestore(app);
+
+
+        // Function to Add Data 
+        async function addItem() {
+            const itemName = document.getElementById("item-name").value;
+            try {
+                const docRef = await addDoc(collection(db, "items"), {
+                    name: itemName
+                });
+                alert("Item added with ID: " + docRef.id);
+                getItems(); // Refresh the list 
+            } catch (e) {
+                console.error("Error adding item: ", e);
+            }
+        }
+
+        // Function to Read Data 
+
+        async function getItems() {
+            const querySnapshot = await getDocs(collection(db, "items"));
+            const itemList = document.getElementById("item-list");
+            itemList.innerHTML = ""; // Clear previous items 
+            querySnapshot.forEach((doc) => {
+                const li = document.createElement("li");
+                li.textContent = `ID: ${doc.id}, Name: ${doc.data().name}`;
+                li.className = "list-group-item";
+                itemList.appendChild(li);
+            });
+        }
+
+        // Function to Update Data 
+        async function updateItem() {
+            const itemId = document.getElementById("update-item-id").value;
+            const newItemName = document.getElementById("update-item-name").value;
+            try {
+                const itemDoc = doc(db, "items", itemId);
+                await updateDoc(itemDoc, {
+                    name: newItemName
+                });
+                alert("Item updated successfully");
+                getItems(); // Refresh the list 
+            } catch (e) {
+                console.error("Error updating item: ", e);
+            }
+
+        }
+
+        // Function to Delete Data 
+
+        async function deleteItem() {
+            const itemId = document.getElementById("delete-item-id").value;
+            try {
+                await deleteDoc(doc(db, "items", itemId));
+                alert("Item deleted successfully");
+                getItems(); // Refresh the list 
+            } catch (e) {
+                console.error("Error deleting item: ", e);
+            }
+        }
+        // Call getItems when the page loads 
+        getItems();
+
+        window.addItem = addItem;
+        window.updateItem = updateItem;
+        window.deleteItem = deleteItem;
+    </script>
+</body>
+
+</html>
