@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firestore CRUD Demo</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center">Firestore CRUD Operations</h3>
+        
+        <!-- Form to Add Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Add New Item</h5>
+                <form id="add-item-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="item-name" placeholder="Enter item name">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section to Display Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Items</h5>
+                <ul id="item-list" class="list-group"></ul>
+            </div>
+        </div>
+
+        <!-- Form to Update Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Update Item</h5>
+                <form id="update-item-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="update-item-id" placeholder="Enter item ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="update-item-name" placeholder="Enter new item name">
+                    </div>
+                    <button type="button" class="btn btn-success" onclick="updateItem()">Update Item</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Form to Delete Data -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Delete Item</h5>
+                <form id="delete-item-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="delete-item-id" placeholder="Enter item ID">
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="deleteItem()">Delete Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK and Script for CRUD Operations -->
+    <script type="module">
+
+        // Function to Add Data
+        async function addItem() {
+            console.log("clicked Add Item")
+        }
+
+        // Function to Read Data
+        async function getItems() {
+            console.log("Get Items")
+        }
+
+        // Function to Update Data
+        async function updateItem() {
+            console.log("Clicked Updated Item")
+        }
+
+        // Function to Delete Data
+        async function deleteItem() {
+            console.log("Clicked Delete Item")
+        }
+
+        // Call getItems when the page loads
+        getItems();
+
+        window.addItem = addItem;
+        window.updateItem = updateItem;
+        window.deleteItem = deleteItem;
+    </script>
+</body>
+</html>
