@@ -53,13 +53,79 @@ Contains starter code to begin working on Firebase features:
 1. Open the **Authentication** folder inside `Templates`.
 
 2. **Templates:**
-   - Add Firebase configuration in `signin.html` and `signup.html` to integrate Firebase Authentication.
+   - Add Below script code in `signup.html` to integrate Firebase Authentication.
   ```bash
-  
-  ```
+  <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-3. **Final:**
-   - The integration is already completed. No need to add Integration is already there
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "fir-demoinclass-b92f4.firebaseapp.com",
+            projectId: "fir-demoinclass-b92f4",
+            storageBucket: "fir-demoinclass-b92f4.appspot.com",
+            messagingSenderId: "683282127140",
+            appId: "1:683282127140:web:87ff88f2c3b37fd803bbb1",
+            measurementId: "G-96RSW4N00E"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        function signUp() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed up successfully
+                    alert("Sign Up Successful");
+                    console.log(userCredential);
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        }
+
+        // Attach the function to the global scope
+        window.signUp = signUp;
+    </script>
+  ```
+   - Add Below script code in `signin.html` to integrate Firebase Authentication.
+   ```bash
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "fir-demoinclass-b92f4.firebaseapp.com",
+            projectId: "fir-demoinclass-b92f4",
+            storageBucket: "fir-demoinclass-b92f4.appspot.com",
+            messagingSenderId: "683282127140",
+            appId: "1:683282127140:web:87ff88f2c3b37fd803bbb1",
+            measurementId: "G-96RSW4N00E"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        function signIn() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    alert("Sign In Successful");
+                    console.log(userCredential);
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        }
+
+        window.signIn = signIn;
+    </script>
+   ```
 
 4. **Run the Project:**
    - Open the HTML files in your browser and test the **Sign Up** and **Sign In** functionalities.
